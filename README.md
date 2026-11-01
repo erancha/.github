@@ -7,7 +7,10 @@ labels.
 ## Overview
 
 - One label pack for every repository, so an issue reads the same way everywhere.
-- Each label's meaning, and the rules for combining them, on one page: `docs/labels.md`.
+- Each label's meaning, and the rules for combining them, on one page:
+  [`docs/labels.md`](docs/labels.md). GitHub shows the same one-line meaning when you hover over a
+  label on an issue, and lists every label with its meaning on a repository's **Labels** page
+  (the `Labels` button beside the issue search box, or `/labels` after the repository URL).
 - A script that creates, recolours and renames a repository's labels to match that page.
 
 ## Scripts
@@ -18,8 +21,9 @@ labels.
 
 ## Using the sync script
 
-**What it does.** "Sync" makes a repository's labels match the pack. The tables in `docs/labels.md`
-are the correct list, and `scripts/sync-labels.sh` compares each repository's labels with them.
+**What it does.** "Sync" makes a repository's labels match the pack. The tables in
+[`docs/labels.md`](docs/labels.md) are the correct list, and `scripts/sync-labels.sh` compares
+each repository's labels with them.
 
 **Who can run it.** Anyone: these are ordinary bash and Python scripts, and no AI tool is involved.
 It needs `bash`, `python3`, the `gh` CLI signed in, a local clone of this repository, and write
@@ -61,15 +65,17 @@ script syntax and parsing the pack, so start with `--dry-run` anywhere else.
 The pack's labels and meanings suit one solo-owned set of projects, so a different set of
 repositories may need a different pack.
 
-**To keep a repository's existing label,** do one of these in `docs/labels.md` before syncing:
+**To keep a repository's existing label,** do one of these in [`docs/labels.md`](docs/labels.md)
+before syncing:
 
 - Map it to a pack label by adding its name to that row's Renames column, so its issues move over.
 - Add a row of its own to the table of the group it belongs to.
 - Name it `area/<something>` in that repository, so the script leaves it alone.
 
-**To use a different pack,** copy this repository and edit only `docs/labels.md`. Add, remove or
-reword rows, and add tables for new groups. The script reads every row in the page, whatever its
-heading. A row must keep this shape, because any other line is skipped without a warning:
+**To use a different pack,** copy this repository and edit only [`docs/labels.md`](docs/labels.md).
+Add, remove or reword rows, and add tables for new groups. The script reads every row in the page,
+whatever its heading. A row must keep this shape, because any other line is skipped without a
+warning:
 
 ```markdown
 | `label` | `0e8a16` | Description, up to 100 characters | `old name`, `other old name` |
@@ -84,10 +90,10 @@ heading. A row must keep this shape, because any other line is skipped without a
 
 ## Details
 
-- `docs/labels.md`: the label groups, what each label means, how an issue is labelled, and how
-  the pack reaches a repository.
-- `CONTRIBUTING.md`: the short guide GitHub shows on repositories without their own, which links
-  to the pack.
+- [`docs/labels.md`](docs/labels.md): the label groups, what each label means, how an issue is
+  labelled, and how the pack reaches a repository.
+- [`CONTRIBUTING.md`](CONTRIBUTING.md): the short guide GitHub shows on repositories without
+  their own, which links to the pack.
 
 ## License
 
