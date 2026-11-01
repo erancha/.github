@@ -134,7 +134,7 @@ Set when an issue closes for that reason.
 
 - `scripts/sync-labels.sh --dry-run --all` shows what every repository of the signed-in account
   would change; without `--dry-run` it creates, recolours and renames labels to match the tables.
-- `--prune` also deletes labels outside the pack that sit on no open issue or pull request.
-  Labels still in use are reported, so triage moves their issues first.
-- A new repository runs `scripts/sync-labels.sh <repo>` before its first issue, then creates its
-  `area/` labels.
+- `--prune` also deletes labels outside the pack that sit on no issue or pull request, open or
+  closed. Labels still in use are reported, so triage moves their issues first.
+- A new repository runs `scripts/sync-labels.sh --prune <repo>` before its first issue, then
+  creates its `area/` labels.

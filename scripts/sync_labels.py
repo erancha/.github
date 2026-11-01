@@ -3,7 +3,7 @@
 Core responsibilities:
 - Parses the pack tables: label, colour, description, and the older names each label renames
 - Creates, recolours or renames each repository's labels to match the pack
-- Reports labels outside the pack and, with --prune, deletes those on no open issue
+- Reports labels outside the pack and, with --prune, deletes those on no issue at all
 """
 
 import argparse
@@ -61,10 +61,11 @@ def gh_json(*args: str):
     return json.loads(gh(*args))
 
 
-def open_issue_count(repo: str, label: str) -> int:
-    # The REST issues endpoint lists pull requests too, so a label on an open PR also counts.
-    path = f"repos/{repo}/issues?labels={quote(label, safe='')}&state=open&per_page=1"
-    return len(gh_json("api", path))
+def label_in_use(repo: str, label: str) -> bool:
+    # Deleting a label strips it from closed issues too, so closed ones count as use. The REST
+    # issues endpoint lists pull requests as well, so a label on a pull request counts.
+    path = f"repos/{repo}/issues?labels={quote(label, safe='')}&state=all&per_page=1"
+    return len(gh_json("api", path)) > 0
 
 
 class Sync:
@@ -86,14 +87,14 @@ class Sync:
         for name in sorted(existing):
             if name in pack_names or name.startswith(REPO_OWNED_PREFIX):
                 continue
-            count = open_issue_count(repo, name)
-            if count == 0 and self.prune:
+            in_use = label_in_use(repo, name)
+            if self.prune and not in_use:
                 self.act(
-                    f"delete {name!r}, on no open issue",
+                    f"delete {name!r}, on no issue",
                     "label", "delete", name, "-R", repo, "--yes",
                 )
             else:
-                print(f"   outside the pack: {name!r}" + (", on open issues" if count else ""))
+                print(f"   outside the pack: {name!r}" + (", on issues" if in_use else ""))
 
     def sync_label(self, repo: str, label: Label, existing: dict) -> None:
         present = [old for old in label.renames if old in existing]
@@ -142,7 +143,9 @@ class Sync:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("repos", nargs="*", help="owner/name, or a name under the signed-in account")
+    parser.add_argument(
+        "repos", nargs="*", help="owner/name, or a name under the signed-in account"
+    )
     parser.add_argument("--all", action="store_true", help="every non-archived source repository")
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--prune", action="store_true")

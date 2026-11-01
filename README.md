@@ -45,11 +45,11 @@ after `--all` runs. Running it again is safe: a repository that already matches 
 | A name in a row's Renames column | It is renamed and stays on its issues |
 | An `area/` label | Left alone: each repository owns these |
 | Any other label | Reported and kept |
-| Any other label, with `--prune` | Deleted when it is on no open issue or pull request |
+| Any other label, with `--prune` | Deleted when it is on no issue or pull request, open or closed |
 | An old name and its new name together, or two old names for one label | An error for that label; move the issues by hand, then rerun |
 
-`--prune` looks only at open items, so a deleted label also disappears from closed issues. Check
-the `--dry-run` output first.
+A new repository uses `--prune`, which clears GitHub's unused default labels. A label still on any
+issue stays, so a closed issue never loses one; rename or remove it there first to retire it.
 
 ## Adapting the pack
 

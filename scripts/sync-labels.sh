@@ -12,7 +12,8 @@
 #
 # Options:
 #   --dry-run   Print what would change and change nothing
-#   --prune     Also delete labels outside the pack that sit on no open issue or pull request
+#   --prune     Also delete labels outside the pack that sit on no issue or pull request, open or
+#               closed
 #   --check     Parse the pack and report the label count, without touching GitHub
 #   -h, --help  Show this help
 #
