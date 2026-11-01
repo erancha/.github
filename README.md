@@ -53,8 +53,13 @@ the `--dry-run` output first.
 
 ## Adapting the pack
 
-The script works on any repository, but the pack's labels and meanings suit one solo-owned set of
-projects, so a different set of repositories may need a different pack.
+The script names no repository, but it has been applied and tested only on the author's own
+repositories: 46 public and private repositories of one personal account. It has not been run on
+an organization or on repositories shared with other people. Its automated checks cover only
+script syntax and parsing the pack, so start with `--dry-run` anywhere else.
+
+The pack's labels and meanings suit one solo-owned set of projects, so a different set of
+repositories may need a different pack.
 
 **To keep a repository's existing label,** do one of these in `docs/labels.md` before syncing:
 
